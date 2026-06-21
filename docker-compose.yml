@@ -1,0 +1,18 @@
+services:
+  pyspark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pyspark-polygon
+    hostname: pyspark-polygon
+    volumes:
+      - ./workspace:/workspace
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    environment:
+      # Makes the Spark driver UI reachable through the Docker port mapping.
+      - PYSPARK_SUBMIT_ARGS=--conf spark.driver.bindAddress=0.0.0.0 pyspark-shell
